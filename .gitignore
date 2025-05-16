@@ -15,3 +15,4 @@ bin/
 
 # Ignore vscode files
 .vscode/
+/.vscode/launch.json

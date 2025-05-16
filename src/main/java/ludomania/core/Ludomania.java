@@ -1,22 +1,10 @@
 package ludomania.core;
 
-import java.util.HashMap;
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import ludomania.core.api.AudioManager;
-import ludomania.core.api.ImageManager;
-import ludomania.core.api.ImageProvider;
-import ludomania.core.api.LanguageManager;
-import ludomania.core.api.SceneManager;
-import ludomania.core.impl.AudioManagerImpl;
-import ludomania.core.impl.CosmeticSetImpl;
-import ludomania.core.impl.ImageManagerImpl;
-import ludomania.core.impl.ImageProviderImpl;
-import ludomania.core.impl.LanguageManagerImpl;
-import ludomania.core.impl.SceneManagerImpl;
-import ludomania.settings.api.SettingsManager;
-import ludomania.settings.impl.SettingsManagerImpl;
+import database.controllers.LudomaniaDBController;
+import database.controllers.api.DatabaseController;
+import database.schemas.UserEntry;
+import database.schemas.WalletEntry;
+import database.schemas.api.Entry;
 
 /**
  * Main class for launching the Ludomania application.
@@ -29,7 +17,7 @@ import ludomania.settings.impl.SettingsManagerImpl;
  * </p>
  */
 
-public final class Ludomania extends Application {
+public final class Ludomania {
     /**
      * The main entry point for the application.
      * <p>
@@ -41,36 +29,12 @@ public final class Ludomania extends Application {
      */
 
     public static void main(final String[] args) {
-        launch(args);
+        DatabaseController usersController = new LudomaniaDBController(new UserEntry("Paperino", "ciaobello99"));
+        DatabaseController walletsController = new LudomaniaDBController(new WalletEntry("pippo", 0.0));
+
+        usersController.insert();
+        Entry usr = usersController.read();
+        System.out.println(usr);
     }
 
-    /**
-     * Called by JavaFX to initialize the graphical user interface.
-     * <p>
-     * This method creates and initializes all the necessary managers (such as
-     * {@link SettingsManager}, {@link ImageManager}, {@link AudioManager},
-     * {@link LanguageManager}, and {@link SceneManager}), and sets up the initial
-     * scene.
-     * </p>
-     *
-     * @param primaryStage the main {@link Stage} of the application
-     */
-    @Override
-    public void start(final Stage primaryStage) {
-        final SettingsManager settingsManager = new SettingsManagerImpl();
-        final ImageManager imageManager = new ImageManagerImpl(new HashMap<>());
-        imageManager.init();
-        final ImageProvider imageProvider = new ImageProviderImpl(imageManager,
-                new CosmeticSetImpl(settingsManager.cardThemeProperty().get(),
-                        settingsManager.backgroundThemeProperty().get(), settingsManager.ficheThemeProperty().get()));
-
-        final AudioManager audioManager = new AudioManagerImpl(settingsManager.volumeProperty().doubleValue());
-        audioManager.initialize();
-        final LanguageManager languageManager = new LanguageManagerImpl(settingsManager.currentLocaleProperty().get());
-        final SceneManager sceneManager = new SceneManagerImpl(primaryStage, settingsManager, audioManager,
-                languageManager, imageProvider);
-        sceneManager.switchToMainMenu();
-        primaryStage.setResizable(false);
-        primaryStage.show();
-    }
 }

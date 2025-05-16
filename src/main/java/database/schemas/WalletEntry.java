@@ -1,8 +1,10 @@
 package database.schemas;
 
+import org.json.JSONObject;
+
 import database.schemas.api.Entry;
 
-public class WalletEntry extends Entry {
+public class WalletEntry implements Entry {
     private final double amount;
     private final String username;
 
@@ -13,5 +15,14 @@ public class WalletEntry extends Entry {
 
     public WalletEntry(final String username) {
         this(username, 0);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject jobj = new JSONObject();
+        jobj.put("username", this.username);
+        jobj.put("amoutn", this.amount);
+
+        return jobj;
     }
 }
