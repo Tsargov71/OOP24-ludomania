@@ -60,15 +60,15 @@ public final class RouletteWheel {
     /**
      * The first colonne numbers for french Roulette game.
      */
-    public static final Set<Object> FIRST_COLONNE = Set.of(1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34);
+    public static final Set<Integer> FIRST_COLONNE = Set.of(1, 4, 7, 10, 13, 16, 19, 22, 25, 28, 31, 34);
     /**
      * The second colonne numbers for french Roulette game.
      */
-    public static final Set<Object> SECOND_COLONNE = Set.of(2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35);
+    public static final Set<Integer> SECOND_COLONNE = Set.of(2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35);
     /**
      * The third colonne numbers for french Roulette game.
      */
-    public static final Set<Object> THIRD_COLONNE = Set.of(3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36);
+    public static final Set<Integer> THIRD_COLONNE = Set.of(3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36);
 
     private static final Integer MAX = 36;
     private static final Integer FIRST_DOUZAINE_BOTTOM_BOUND = 1;
@@ -104,7 +104,7 @@ public final class RouletteWheel {
      * The first douzaine numbers for french Roulette game.
      * @return a {@link Set} of {@link Integer} containing the first douzaine numbers.
      */
-    public static Set<Object> firstDouzaine() {
+    public static Set<Integer> firstDouzaine() {
         return ROULETTE_NUMBERS.keySet().stream()
                 .filter(key -> key >= FIRST_DOUZAINE_BOTTOM_BOUND && key <= FIRST_DOUZAINE_UP_BOUND)
                 .collect(Collectors.toSet());
@@ -114,7 +114,7 @@ public final class RouletteWheel {
      * The second douzaine numbers for french Roulette game.
      * @return a {@link Set} of {@link Integer} containing the second douzaine numbers.
      */
-    public static Set<Object> secondDouzaine() {
+    public static Set<Integer> secondDouzaine() {
         return ROULETTE_NUMBERS.keySet().stream()
                 .filter(key -> key >= (FIRST_DOUZAINE_UP_BOUND + 1) && key <= SECOND_DOUZAINE_UP_BOUND)
                 .collect(Collectors.toSet());
@@ -124,7 +124,7 @@ public final class RouletteWheel {
      * The third douzaine numbers for french Roulette game.
      * @return a {@link Set} of {@link Integer} containing the third douzaine numbers.
      */
-    public static Set<Object> thirdDouzaine() {
+    public static Set<Integer> thirdDouzaine() {
         return ROULETTE_NUMBERS.keySet().stream()
                 .filter(key -> key >= (SECOND_DOUZAINE_UP_BOUND + 1) && key <= THIRD_DOUZAINE_UP_BOUND)
                 .collect(Collectors.toSet());
@@ -134,7 +134,7 @@ public final class RouletteWheel {
      * The manque numbers for french Roulette game.
      * @return a {@link Set} of {@link Integer} containing the manque numbers.
      */
-    public static Set<Object> manque() {
+    public static Set<Integer> manque() {
         return IntStream.rangeClosed(FIRST_HALF_BOTTOM_BOUND, FIRST_HALF_UP_BOUND).boxed().collect(Collectors.toSet());
     }
 
@@ -142,7 +142,7 @@ public final class RouletteWheel {
      * The passe numbers for french Roulette game.
      * @return a {@link Set} of {@link Integer} containing the passe numbers.
      */
-    public static Set<Object> passe() {
+    public static Set<Integer> passe() {
         return IntStream.rangeClosed(FIRST_HALF_UP_BOUND + 1, MAX).boxed().collect(Collectors.toSet());
     }
 

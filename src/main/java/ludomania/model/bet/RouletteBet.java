@@ -11,10 +11,11 @@ import java.util.function.BiFunction;
 
 /**
  * Represents the Roulette game Bet.
+ * @param <T> the type of the choices made for the bet.
  */
-public final class RouletteBet extends Bet {
-    private final BiFunction<Pair<Integer, RouletteColor>, Set<Object>, Boolean> success;
-    private final Set<Object> choice;
+public final class RouletteBet<T> extends Bet {
+    private final BiFunction<Pair<Integer, RouletteColor>, Set<T>, Boolean> success;
+    private final Set<T> choice;
 
     /**
      * Creates a new {@link RouletteBet}.
@@ -26,8 +27,8 @@ public final class RouletteBet extends Bet {
     public RouletteBet(
             final double value,
             final BetType type,
-            final BiFunction<Pair<Integer, RouletteColor>, Set<Object>, Boolean> success,
-            final Set<Object> choice
+            final BiFunction<Pair<Integer, RouletteColor>, Set<T>, Boolean> success,
+            final Set<T> choice
     ) {
         super(value, type);
         this.success = success;
@@ -35,11 +36,13 @@ public final class RouletteBet extends Bet {
     }
 
     /**
-     * Gets the success {@link BiFunction}.
+     *
+     * @param wheelResult the result from the Roulette wheel.
+     * @param choices the choices made for this bet.
      * @return the instance of private property {@code success}.
      */
-    public BiFunction<Pair<Integer, RouletteColor>, Set<Object>, Boolean> getSuccess() {
-        return success;
+    public Boolean isSuccessful(final Pair<Integer, RouletteColor> wheelResult, final Set<T> choices) {
+        return success.apply(wheelResult, choices);
     }
 
     /**
@@ -61,7 +64,7 @@ public final class RouletteBet extends Bet {
      * Gets the choiche on which the bet is placed.
      * @return the corresponding color or numbers.
      */
-    public Set<Object> getChoice() {
+    public Set<T> getChoice() {
         return Collections.unmodifiableSet(this.choice);
     }
 }

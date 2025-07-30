@@ -15,12 +15,14 @@ import ludomania.model.player.RoulettePlayer;
 import ludomania.model.player.api.Player;
 import ludomania.model.wallet.impl.WalletImpl;
 
+
 import java.util.Map;
-import java.util.Set;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Arrays;
 import java.util.Optional;
+import java.util.Set;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -172,12 +174,12 @@ public class RouletteGameManager {
         try {
             if (event.getSource() instanceof Separator separator) {
                 final String id = separator.getId();
-                final Set<Object> choices =
+                final Set<Integer> choices =
                         Arrays.stream(id.split("-")).map(Integer::parseInt).collect(Collectors.toSet());
 
                 this.rouletteCroupier.addBet(
                         this.currentPlayer,
-                        this.currentPlayer.makeBet(this.currentPlayer.getBetAmount(), RouletteBetType.CHEVAL, Set.of(choices)));
+                        this.currentPlayer.makeBet(this.currentPlayer.getBetAmount(), RouletteBetType.CHEVAL, choices));
 
                 this.currentPlayer.resetBetAmount();
             } else {
@@ -196,12 +198,12 @@ public class RouletteGameManager {
         try {
             if (event.getSource() instanceof Button button) {
                 final String id = button.getId();
-                final Set<Object> choices =
+                final Set<Integer> choices =
                         Arrays.stream(id.split("-")).map(Integer::parseInt).collect(Collectors.toSet());
 
                 this.rouletteCroupier.addBet(
                         this.currentPlayer,
-                        this.currentPlayer.makeBet(this.currentPlayer.getBetAmount(), RouletteBetType.CARRE, Set.of(choices)));
+                        this.currentPlayer.makeBet(this.currentPlayer.getBetAmount(), RouletteBetType.CARRE, choices));
 
                 this.currentPlayer.resetBetAmount();
             } else {
@@ -220,7 +222,7 @@ public class RouletteGameManager {
         try {
             if (event.getSource() instanceof Button button) {
                 final String id = button.getId();
-                final Set<Object> choices;
+                final Set<Integer> choices;
                 switch (id.charAt(0)) {
                     case 'b' -> choices = RouletteWheel.FIRST_COLONNE;
                     case 'm' -> choices = RouletteWheel.SECOND_COLONNE;
@@ -251,7 +253,7 @@ public class RouletteGameManager {
             this.rouletteCroupier.addBet(
                     this.currentPlayer,
                     this.currentPlayer.makeBet(
-                            this.currentPlayer.getBetAmount(), RouletteBetType.NOIR, Set.of(RouletteColor.NOIR)));
+                            this.currentPlayer.getBetAmount(), RouletteBetType.NOIR, Collections.emptySet()));
 
             this.currentPlayer.resetBetAmount();
         } catch (final IllegalArgumentException e) {
@@ -267,7 +269,7 @@ public class RouletteGameManager {
             this.rouletteCroupier.addBet(
                     this.currentPlayer,
                     this.currentPlayer.makeBet(
-                            this.currentPlayer.getBetAmount(), RouletteBetType.ROUGE, Set.of(RouletteColor.ROUGE)));
+                            this.currentPlayer.getBetAmount(), RouletteBetType.ROUGE, Collections.emptySet()));
 
             this.currentPlayer.resetBetAmount();
         } catch (final IllegalArgumentException e) {
@@ -341,7 +343,7 @@ public class RouletteGameManager {
         try {
             if (event.getSource() instanceof Button button) {
                 final String id = button.getId();
-                final Set<Object> choices;
+                final Set<Integer> choices;
                 switch (id.charAt(0)) {
                     case 'p' -> choices = RouletteWheel.firstDouzaine();
                     case 'm' -> choices = RouletteWheel.secondDouzaine();

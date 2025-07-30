@@ -21,8 +21,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet pleinBet(final Set<Object> choice, final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> pleinBet(final Set<Integer> choice, final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.PLEIN,
                 (cr, choices) -> {
@@ -41,8 +41,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet chevalBet(final Set<Object> choice, final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> chevalBet(final Set<Integer> choice, final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.CHEVAL,
                 (cr, choices) -> {
@@ -61,8 +61,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet carreBet(final Set<Object> choice, final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> carreBet(final Set<Integer> choice, final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.CARRE,
                 (cr, choices) -> {
@@ -81,8 +81,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet douzaineBet(final Set<Object> choice, final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> douzaineBet(final Set<Integer> choice, final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.DOUZAINE,
                 (cr, choices) -> {
@@ -101,8 +101,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet colonneBet(final Set<Object> choice, final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> colonneBet(final Set<Integer> choice, final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.COLONNE,
                 (cr, choices) -> {
@@ -120,8 +120,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet pairBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> pairBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.PAIR,
                 (cr, choices) -> cr.getKey() != 0 && cr.getKey() % 2 == 0,
@@ -133,8 +133,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet impairBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> impairBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.IMPAIR,
                 (cr, choices) -> cr.getKey() != 0 && cr.getKey() % 2 != 0,
@@ -146,8 +146,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet passeBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> passeBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.PASSE,
                 (cr, choices) -> RouletteWheel.passe().stream().anyMatch(c -> Objects.equals(c, cr.getKey())),
@@ -159,8 +159,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet manqueBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> manqueBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.MANQUE,
                 (cr, choices) -> RouletteWheel.manque().stream().anyMatch(c -> Objects.equals(c, cr.getKey())),
@@ -172,8 +172,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet rougeBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> rougeBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.ROUGE,
                 (cr, choices) -> cr.getValue() == RouletteColor.ROUGE,
@@ -185,8 +185,8 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet noirBet(final double amount) {
-        return new RouletteBet(
+    public static RouletteBet<Integer> noirBet(final double amount) {
+        return new RouletteBet<>(
                 amount,
                 RouletteBetType.NOIR,
                 (cr, choices) -> cr.getValue() == RouletteColor.NOIR,

@@ -74,7 +74,7 @@ public class RoulettePlayer extends Player {
      * @param choice choice of the player.
      * @return the new {@link ludomania.model.bet.RouletteBet}.
      */
-    public Bet makeBet(final Double amount, final BetType type, final Set<Object> choice) {
+    public Bet makeBet(final Double amount, final BetType type, final Set<Integer> choice) {
         if (amount >= 0) {
             switch (type.getTypeName()) {
                 case "PLEIN" -> {
