@@ -136,7 +136,6 @@ public class RouletteController implements Controller {
     private void chevalBet(final MouseEvent event) {
         this.game.chevalBet(event);
         this.resetBelLabel();
-
     }
 
     @FXML

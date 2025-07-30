@@ -40,7 +40,7 @@ public final class RouletteViewBuilder implements ViewBuilder {
 
         try {
             final FXMLLoader loader = new FXMLLoader();
-            loader.setController(controller);
+            loader.setController(this.controller);
             loader.setLocation(ClassLoader.getSystemResource(FXML_FILE_PATH));
             root = loader.load();
             root.getStylesheets().add(ClassLoader.getSystemResource(FXML_STYLE_FILE_PATH).toString());

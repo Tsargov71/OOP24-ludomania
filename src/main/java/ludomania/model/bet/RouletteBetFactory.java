@@ -1,10 +1,13 @@
 package ludomania.model.bet;
 
+import ludomania.model.Pair;
 import ludomania.model.croupier.roulette.RouletteColor;
 import ludomania.model.croupier.roulette.RouletteWheel;
 
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * Represents a {@code factory} for the roulette game bets.
@@ -25,13 +28,7 @@ public final class RouletteBetFactory {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.PLEIN,
-                (cr, choices) -> {
-                    if (choices != null && !choices.isEmpty()) {
-                        return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
-                    } else {
-                        throw new IllegalArgumentException(INVALID_CHOICE + choices);
-                    }
-                },
+                numberedChoicesSuccessFn(INVALID_CHOICE),
                 choice);
     }
 
@@ -45,13 +42,7 @@ public final class RouletteBetFactory {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.CHEVAL,
-                (cr, choices) -> {
-                    if (choices != null && !choices.isEmpty()) {
-                        return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
-                    } else {
-                        throw new IllegalArgumentException(INVALID_CHOICES + choices);
-                    }
-                },
+                numberedChoicesSuccessFn(INVALID_CHOICES),
                 choice);
     }
 
@@ -65,13 +56,7 @@ public final class RouletteBetFactory {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.CARRE,
-                (cr, choices) -> {
-                    if (choices != null && !choices.isEmpty()) {
-                        return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
-                    } else {
-                        throw new IllegalArgumentException(INVALID_CHOICES + choices);
-                    }
-                },
+                numberedChoicesSuccessFn(INVALID_CHOICES),
                 choice);
     }
 
@@ -85,13 +70,7 @@ public final class RouletteBetFactory {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.DOUZAINE,
-                (cr, choices) -> {
-                    if (choices != null && !choices.isEmpty()) {
-                        return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
-                    } else {
-                        throw new IllegalArgumentException(INVALID_CHOICES + choices);
-                    }
-                },
+                numberedChoicesSuccessFn(INVALID_CHOICES),
                 choice);
     }
 
@@ -105,13 +84,7 @@ public final class RouletteBetFactory {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.COLONNE,
-                (cr, choices) -> {
-                    if (choices != null && !choices.isEmpty()) {
-                        return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
-                    } else {
-                        throw new IllegalArgumentException(INVALID_CHOICES + choices);
-                    }
-                },
+                numberedChoicesSuccessFn(INVALID_CHOICES),
                 choice);
     }
 
@@ -125,7 +98,7 @@ public final class RouletteBetFactory {
                 amount,
                 RouletteBetType.PAIR,
                 (cr, choices) -> cr.getKey() != 0 && cr.getKey() % 2 == 0,
-                Set.of());
+                Collections.emptySet());
     }
 
     /**
@@ -138,7 +111,7 @@ public final class RouletteBetFactory {
                 amount,
                 RouletteBetType.IMPAIR,
                 (cr, choices) -> cr.getKey() != 0 && cr.getKey() % 2 != 0,
-                Set.of());
+                Collections.emptySet());
     }
 
     /**
@@ -151,7 +124,7 @@ public final class RouletteBetFactory {
                 amount,
                 RouletteBetType.PASSE,
                 (cr, choices) -> RouletteWheel.passe().stream().anyMatch(c -> Objects.equals(c, cr.getKey())),
-                Set.of());
+                Collections.emptySet());
     }
 
     /**
@@ -164,7 +137,7 @@ public final class RouletteBetFactory {
                 amount,
                 RouletteBetType.MANQUE,
                 (cr, choices) -> RouletteWheel.manque().stream().anyMatch(c -> Objects.equals(c, cr.getKey())),
-                Set.of());
+                Collections.emptySet());
     }
 
     /**
@@ -172,12 +145,12 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet<Integer> rougeBet(final double amount) {
+    public static RouletteBet<RouletteColor> rougeBet(final double amount) {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.ROUGE,
                 (cr, choices) -> cr.getValue() == RouletteColor.ROUGE,
-                Set.of());
+                Set.of(RouletteColor.ROUGE));
     }
 
     /**
@@ -185,11 +158,22 @@ public final class RouletteBetFactory {
      * @param amount the value of the bet.
      * @return the new bet instance.
      */
-    public static RouletteBet<Integer> noirBet(final double amount) {
+    public static RouletteBet<RouletteColor> noirBet(final double amount) {
         return new RouletteBet<>(
                 amount,
                 RouletteBetType.NOIR,
                 (cr, choices) -> cr.getValue() == RouletteColor.NOIR,
-                Set.of());
+                Set.of(RouletteColor.NOIR));
+    }
+
+    private static BiFunction<Pair<Integer, RouletteColor>, Set<Integer>, Boolean> numberedChoicesSuccessFn(
+            final String msgPrefix) {
+        return (cr, choices) -> {
+            if (choices != null && !choices.isEmpty()) {
+                return choices.stream().anyMatch(c -> Objects.equals(c, cr.getKey()));
+            } else {
+                throw new IllegalArgumentException(msgPrefix + choices);
+            }
+        };
     }
 }

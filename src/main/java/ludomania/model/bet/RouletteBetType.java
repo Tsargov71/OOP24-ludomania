@@ -35,6 +35,7 @@ public final class RouletteBetType {
             return CHEVAL_PAYOUT;
         }
     };
+
     /**
      * Carre bet type.
      */
